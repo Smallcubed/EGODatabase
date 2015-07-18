@@ -69,6 +69,8 @@
 // Execute raw sqlite calls, with thread safe lock protection. Do not nest, as it will cause a deadlock.
 - (void)execute:(void(^)(sqlite3*))block;
 
+-(NSArray *)executeSingleColumnQuery:(NSString*)sql parameters:(NSArray*)parameters;
+
 // Error methods
 - (NSString*)lastErrorMessage;
 - (BOOL)hadError;

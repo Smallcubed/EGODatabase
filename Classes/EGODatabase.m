@@ -388,6 +388,77 @@
 	}
 }
 
+
+-(NSArray *)executeSingleColumnQuery:(NSString*)sql parameters:(NSArray*)parameters{
+    NSMutableArray * result = [[NSMutableArray alloc] init] ;
+    if(![self open]) {
+        return result;
+    }
+    
+    int returnCode = 0;
+    sqlite3_stmt* statement = NULL;
+    if (!statement){
+        returnCode = sqlite3_prepare_v2(self.sqliteHandle, [sql UTF8String], -1, &statement, 0);
+        if (SQLITE_OK != returnCode) {
+            EGODBDebugLog(@"[EGODatabase] Query Failed, Error: %d \"%@\"\n%@\n\n", [self lastErrorCode], [self lastErrorMessage], sql);
+            sqlite3_finalize(statement);
+            return result;
+        }
+    }
+    
+    if (![self bindStatement:statement toParameters:parameters]) {
+        EGODBDebugLog(@"[EGODatabase] Invalid bind count for number of arguments. Statement: %@",sql);
+        sqlite3_finalize(statement);
+        return result;
+    }
+    
+    int columnCount = sqlite3_column_count(statement);
+    int colIdx = 0;
+    
+    if (columnCount!=1){
+        
+        EGODBDebugLog(@"[EGODatabase] query producing more than 1 column for single column request");
+        sqlite3_finalize(statement);
+        return result;
+    }
+    
+    
+    while(sqlite3_step(statement) == SQLITE_ROW) {
+        if(sqlite3_column_type(statement, colIdx) == SQLITE_BLOB) {
+            NSData * blob_data = [NSData dataWithBytes:sqlite3_column_text(statement,colIdx) length:sqlite3_column_bytes(statement,colIdx)];
+            if (blob_data){
+                NSString * string = [[NSString alloc] initWithData:blob_data encoding:NSUTF8StringEncoding ];
+                if (string){
+                    [result addObject:string];
+                }
+                else{
+                    [result addObject:@""];
+                }
+            }
+            else{
+                [result addObject:@""];
+            }
+        }
+        else if(sqlite3_column_text(statement,colIdx) != NULL) {
+            
+            NSString *string = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(statement,colIdx)] ;
+            if (string){
+                [result addObject:string];
+            }
+            else{
+                [result addObject:@""];
+            }
+        }
+        else {
+            [result addObject:@""];
+        }
+    }
+    
+    sqlite3_finalize(statement);
+
+    return result ;
+}
+
 - (void)dealloc {
 	[self close];
 }
