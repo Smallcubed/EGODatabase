@@ -70,6 +70,7 @@
 - (void)execute:(void(^)(sqlite3*))block;
 
 -(NSArray *)executeSingleColumnQuery:(NSString*)sql parameters:(NSArray*)parameters;
+-(NSArray <NSNumber*> *)executeIntegerResultQuery:(NSString*)sql parameters:(NSArray*)parameters;
 
 // Error methods
 - (NSString*)lastErrorMessage;
