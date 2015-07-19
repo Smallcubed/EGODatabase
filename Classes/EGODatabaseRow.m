@@ -25,15 +25,16 @@
 
 #import "EGODatabaseRow_Internal.h"
 #import "EGODatabaseResult.h"
-
+@interface EGODatabaseRow()
+@property(nonatomic,strong,readwrite) NSArray* names;
+@end
 @implementation EGODatabaseRow
 
 @dynamic dictionary;
-@synthesize names = _names;
 
 - (instancetype)initWithDatabaseResult:(EGODatabaseResult*)result data:(NSArray*)data {
 	if((self = [super init])) {
-		_names = result.columnNames;
+		self.names = result.columnNames;
 		self.data = data;
 	}
 	
