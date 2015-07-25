@@ -69,6 +69,10 @@
 	}
 }
 
+- (NSInteger)integerForColumnAtIndex:(NSUInteger)index {
+    return [[self.data objectAtIndex:index] integerValue];
+}
+
 - (long)longForColumnAtIndex:(NSUInteger)index {
     return [[self.data objectAtIndex:index] longValue];
 }

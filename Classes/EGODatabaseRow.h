@@ -32,6 +32,8 @@
 - (int)intForColumn:(NSString*)name;
 - (int)intForColumnAtIndex:(NSUInteger)index;
 
+-(NSInteger) integerForColumnAtIndex:(NSUInteger)index;
+
 - (long)longForColumn:(NSString*)name;
 - (long)longForColumnAtIndex:(NSUInteger)index;
 
