@@ -311,10 +311,13 @@
 		NSMutableArray* data = [[NSMutableArray alloc] init];
 		
 		for(int x = 0; x < columnCount; x++) {
-			if (SQLITE_BLOB == sqlite3_column_type(statement, x)) {
+            int columnType = sqlite3_column_type(statement, x);
+			if (SQLITE_BLOB == columnType) {
 				[data addObject:[NSData dataWithBytes:sqlite3_column_text(statement,x) length:sqlite3_column_bytes(statement,x)]];
-			} else if (sqlite3_column_text(statement,x) != NULL) {
-				[data addObject:@((char*)sqlite3_column_text(statement,x))];
+            } else if (SQLITE_INTEGER == columnType){
+                [data addObject:@(sqlite3_column_int64(statement, x))];
+            } else if (sqlite3_column_text(statement,x) != NULL) {
+				[data addObject:[NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement,x)]];
 			} else {
 				[data addObject:@""];
 			}
