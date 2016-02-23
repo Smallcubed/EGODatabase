@@ -187,6 +187,9 @@
 		dispatch_semaphore_signal(_executeLock);
 		return NO;
 	} else if (SQLITE_OK != returnCode) {
+        if ([self.lastErrorMessage containsString:@"syntax error"]){
+            NSAssert(SQLITE_OK == returnCode, @"[EGODatabase] Query Failed, Error: %d \"%@\"\n%@\n\n", [self lastErrorCode], [self lastErrorMessage], sql);
+        }
 		EGODBDebugLog(@"[EGODatabase] Query Failed, Error: %d \"%@\"\n%@\n\n", [self lastErrorCode], [self lastErrorMessage], sql);
 		sqlite3_finalize(statement);
 		EGODBLockLog(@"%@ released lock", [sql md5]);
