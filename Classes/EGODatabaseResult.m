@@ -47,4 +47,7 @@
 	return [self.rows countByEnumeratingWithState:state objects:buffer count:len];
 }
 
+-(NSString*)description{
+    return [NSString stringWithFormat:@"<%@: %p> %ld rows",[self class],self,[self count]];
+}
 @end
