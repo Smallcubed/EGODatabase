@@ -71,6 +71,7 @@
 
 -(NSArray *)executeSingleColumnQuery:(NSString*)sql parameters:(NSArray*)parameters;
 -(NSArray <NSNumber*> *)executeIntegerResultQuery:(NSString*)sql parameters:(NSArray*)parameters;
+-(NSIndexSet*) executeIndexResultQuery:(NSString*)sql parameters:(NSArray*)parameters;
 
 // Error methods
 - (NSString*)lastErrorMessage;
