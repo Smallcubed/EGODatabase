@@ -24,7 +24,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <sqlite3.h>
+typedef struct sqlite3 sqlite3;
 
 #import "EGODatabaseRequest.h"
 #import "EGODatabaseResult.h"
@@ -46,7 +46,7 @@
 - (BOOL)executeUpdate:(NSString*)sql;
 - (BOOL)executeUpdate:(NSString*)sql parameters:(NSArray*)parameters;
 
-- (sqlite3_int64)lastInsertRowId;
+- (NSInteger)lastInsertRowId;
 
 // Execute Query
 - (EGODatabaseResult*)executeQueryWithParameters:(NSString*)sql, ... NS_REQUIRES_NIL_TERMINATION;

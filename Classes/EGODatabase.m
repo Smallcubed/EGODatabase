@@ -34,6 +34,7 @@
  */
 
 #import "EGODatabase.h"
+#import <sqlite3.h>
 #import "EGODatabaseResult_Internal.h"
 #import "EGODatabaseRow_Internal.h"
 
@@ -228,9 +229,9 @@
 	return (returnCode == SQLITE_OK);
 }
 
-- (sqlite3_int64)lastInsertRowId {
+- (NSInteger)lastInsertRowId {
 	if (self.sqliteHandle) {
-		return sqlite3_last_insert_rowid(self.sqliteHandle);
+		return (NSInteger)sqlite3_last_insert_rowid(self.sqliteHandle);
 	} else {
 		EGODBDebugLog(@"[EGODatabase] Can't get last rowid of nil sqlite");
 		return 0;
