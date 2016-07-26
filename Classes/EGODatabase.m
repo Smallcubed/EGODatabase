@@ -141,7 +141,7 @@
 	}
 }
 
-- (void)execute:(void(^)(sqlite3*))block {
+- (void)execute:(void(^)(sqlite3* handle))block {
 	EGODBLockLog(@"[Update] Waiting for Lock (%@): %@ %@", [sql md5], sql, [NSThread isMainThread] ? @"** Alert: Attempting to lock on main thread **" : @"");
 	dispatch_semaphore_wait(_executeLock, 0);
 	EGODBLockLog(@"[Update] Got Lock (%@)", [sql md5]);

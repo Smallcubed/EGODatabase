@@ -67,7 +67,7 @@ typedef struct sqlite3 sqlite3;
 - (EGODatabaseRequest*)requestWithUpdate:(NSString*)sql parameters:(NSArray*)parameters;
 
 // Execute raw sqlite calls, with thread safe lock protection. Do not nest, as it will cause a deadlock.
-- (void)execute:(void(^)(sqlite3*))block;
+- (void)execute:(void(^)(sqlite3* handle))block;
 
 -(NSArray *)executeSingleColumnQuery:(NSString*)sql parameters:(NSArray*)parameters;
 -(NSArray <NSNumber*> *)executeIntegerResultQuery:(NSString*)sql parameters:(NSArray*)parameters;
